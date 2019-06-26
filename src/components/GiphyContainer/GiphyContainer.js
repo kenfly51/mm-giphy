@@ -59,7 +59,7 @@ export class GiphyContainer extends Component {
       })
       .then(res => res.json())
       .then(response => {
-        let gifs = response.data.map(g => g.images)
+        let gifs = response.data
         let hasMore = true
         const { total_count, count, offset } = response.pagination
         if (total_count <= count + offset) {
@@ -77,14 +77,25 @@ export class GiphyContainer extends Component {
 	}
 
   render() {
-    return <div>{JSON.stringify(this.state)}</div>
+    const { renderItem } = this.props;
+    const { gifs } = this.state;
+    return (
+      <div className="giphy-container">
+        {gifs.map(gif => (
+          <div key={gif.id} className="gif-item">
+            {renderItem(gif)}
+          </div>
+        ))}
+      </div>
+    )
   }
 }
 
 GiphyContainer.propTypes = {
   url: PropTypes.string,
   apiKey: PropTypes.string,
-  pageSize: PropTypes.number
+  pageSize: PropTypes.number,
+  renderItem: PropTypes.func
 }
 
 GiphyContainer.defaultProps = {
