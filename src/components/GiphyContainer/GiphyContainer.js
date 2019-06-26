@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 export class GiphyContainer extends Component {
   state = {
@@ -80,13 +81,13 @@ export class GiphyContainer extends Component {
     const { renderItem } = this.props;
     const { gifs } = this.state;
     return (
-      <div className="giphy-container">
+      <Container>
         {gifs.map(gif => (
-          <div key={gif.id} className="gif-item">
+          <Item key={gif.id}>
             {renderItem(gif)}
-          </div>
+          </Item>
         ))}
-      </div>
+      </Container>
     )
   }
 }
@@ -102,3 +103,12 @@ GiphyContainer.defaultProps = {
   pageSize: 20,
   rating: "G"
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const Item = styled.div`
+  width: 25%
+`;
