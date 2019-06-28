@@ -19,7 +19,7 @@ export class GiphyItem extends Component {
         {userAvatar && (
           <UserInfo>
             <Avatar src={userAvatar} />
-            <a href={userProfile}> {displayName} </a>
+            <UserLink href={userProfile}> {displayName} </UserLink>
           </UserInfo>
         )}
       </Item>
@@ -79,4 +79,9 @@ const Avatar = styled.img`
   height: 30px;
   border-radius: 15px;
   margin: 5px;
+`;
+
+const UserLink = styled.a`
+  text-decoration: none;
+  font-size: 0.8em;
 `;
