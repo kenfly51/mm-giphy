@@ -5,11 +5,11 @@ import styled from 'styled-components';
 export class GiphyItem extends Component {
   render() {
     const {
-      data: { url, displayName, userAvatar, userProfile }
+      data: { url, displayName, userAvatar, userProfile, width }
     } = this.props;
     return (
       <Item>
-        <GifWrapper>
+        <GifWrapper width={width}>
           <Gif src={url} />
           <Info>
             <div>Attachment</div>
@@ -30,6 +30,7 @@ export class GiphyItem extends Component {
 GiphyItem.propTypes = {
   data: PropTypes.shape({
     url: PropTypes.string,
+    width: PropTypes.string,
     fullScreenUrl: PropTypes.string,
     displayName: PropTypes.string,
     userAvatar: PropTypes.string,
@@ -54,7 +55,10 @@ const GifWrapper = styled.div`
   border-radius: 0.25rem;
   box-shadow: 0px 0px 5px 0px #d2d2d2;
   padding: 15px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  ${({ width }) => width && `max-width: ${width}px;`}
 `;
 
 const Gif = styled.img``;

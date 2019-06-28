@@ -6,8 +6,7 @@ class App extends Component {
     const { user, images } = gif;
 
     const { fixed_width, original } = images;
-
-    const { url } = fixed_width;
+    const { url, width } = fixed_width;
     const { url: fullScreenUrl } = original;
 
     const {
@@ -18,6 +17,7 @@ class App extends Component {
 
     return {
       url,
+      width,
       fullScreenUrl,
       displayName,
       userAvatar,
