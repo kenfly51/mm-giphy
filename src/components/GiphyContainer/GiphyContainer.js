@@ -80,9 +80,17 @@ export class GiphyContainer extends Component {
     );
   };
 
+  loadMoreGifs = () => {
+    const { pageSize } = this.props;
+    const { page } = this.state;
+    const newOffset = page * pageSize + 1;
+
+    this.loadGifs(newOffset);
+  };
+
   render() {
     const { renderItem, pc, phone, tablet } = this.props;
-    const { gifs } = this.state;
+    const { gifs, hasMore } = this.state;
     return (
       <Container>
         {gifs.map(gif => (
@@ -90,6 +98,9 @@ export class GiphyContainer extends Component {
             {renderItem(gif)}
           </Item>
         ))}
+        {hasMore && (
+          <LoadMoreButton onClick={this.loadMoreGifs}>Load more</LoadMoreButton>
+        )}
       </Container>
     );
   }
@@ -124,6 +135,7 @@ const getWidthString = (numOfColumn, margin) => {
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 
 const Item = styled.div`
@@ -139,4 +151,20 @@ const Item = styled.div`
   @media only screen and (max-width: 320px) {
     ${({ phone }) => phone && getWidthString(phone, 5)};
   }
+`;
+
+const LoadMoreButton = styled.button`
+  margin: 20px;
+  outline: none;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  color: #007bff;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
 `;
