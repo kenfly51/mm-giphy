@@ -74,7 +74,7 @@ class App extends Component {
           apiKey="eUVMjjobXnZldjnCYWVmfL4KrfUI3Is4"
           renderItem={this.renderItem}
           pc={4}
-          table={3}
+          tablet={3}
           phone={2}
         />
         <Modal show={showDetail} onClose={this.onCloseModal}>
