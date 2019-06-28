@@ -81,12 +81,14 @@ export class GiphyContainer extends Component {
   };
 
   render() {
-    const { renderItem } = this.props;
+    const { renderItem, pc, phone, tablet } = this.props;
     const { gifs } = this.state;
     return (
       <Container>
         {gifs.map(gif => (
-          <Item key={gif.id}>{renderItem(gif)}</Item>
+          <Item {...{ pc, phone, tablet }} key={gif.id}>
+            {renderItem(gif)}
+          </Item>
         ))}
       </Container>
     );
@@ -98,12 +100,25 @@ GiphyContainer.propTypes = {
   apiKey: PropTypes.string,
   pageSize: PropTypes.number,
   renderItem: PropTypes.func,
-  rating: PropTypes.string
+  rating: PropTypes.string,
+  pc: PropTypes.number.isRequired,
+  phone: PropTypes.number,
+  tablet: PropTypes.number
 };
 
 GiphyContainer.defaultProps = {
   pageSize: 20,
   rating: 'G'
+};
+
+const getWidthString = (numOfColumn, margin) => {
+  if (!numOfColumn) return;
+  const width = 100 / numOfColumn;
+
+  return `
+    width: calc(${width}% - ${margin * 2}px);
+    margin: ${margin}px;
+  `;
 };
 
 const Container = styled.div`
@@ -112,5 +127,16 @@ const Container = styled.div`
 `;
 
 const Item = styled.div`
-  width: 25%;
+  /* PC */
+  ${({ pc }) => pc && getWidthString(pc, 20)};
+
+  /* Tablets (portrait) */
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+    ${({ tablet }) => tablet && getWidthString(tablet, 15)};
+  }
+
+  /* Phones (portrait) */
+  @media only screen and (max-width: 320px) {
+    ${({ phone }) => phone && getWidthString(phone, 5)};
+  }
 `;

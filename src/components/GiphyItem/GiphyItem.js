@@ -11,12 +11,17 @@ export class GiphyItem extends Component {
       <Item>
         <GifWrapper>
           <Gif src={url} />
-          <Info>View Like Attachment</Info>
+          <Info>
+            <div>Attachment</div>
+            <div>actions</div>
+          </Info>
         </GifWrapper>
-        <UserInfo>
-          <Avatar src={userAvatar} />
-          <a href={userProfile}> {displayName} </a>
-        </UserInfo>
+        {userAvatar && (
+          <UserInfo>
+            <Avatar src={userAvatar} />
+            <a href={userProfile}> {displayName} </a>
+          </UserInfo>
+        )}
       </Item>
     );
   }
@@ -35,16 +40,39 @@ GiphyItem.propTypes = {
 GiphyItem.defaultProps = {};
 
 const Item = styled.div`
-  width: "100%",
-  height: "100%",
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
 `;
 
-const GifWrapper = styled.div``;
+const GifWrapper = styled.div`
+  flex: 1;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  box-shadow: 0px 0px 5px 0px #d2d2d2;
+  padding: 15px;
+  text-align: center;
+`;
 
 const Gif = styled.img``;
 
-const Info = styled.div``;
+const Info = styled.div`
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+`;
 
-const UserInfo = styled.div``;
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
-const Avatar = styled.img``;
+const Avatar = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin: 5px;
+`;

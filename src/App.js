@@ -36,6 +36,9 @@ class App extends Component {
         url="https://api.giphy.com/v1/gifs/trending"
         apiKey="eUVMjjobXnZldjnCYWVmfL4KrfUI3Is4"
         renderItem={this.renderItem}
+        pc={4}
+        table={3}
+        phone={2}
       />
     );
   }
