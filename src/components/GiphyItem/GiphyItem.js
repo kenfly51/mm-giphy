@@ -6,7 +6,8 @@ export class GiphyItem extends Component {
   render() {
     const {
       data: { url, displayName, userAvatar, userProfile, width },
-      autoWidth
+      autoWidth,
+      onClick
     } = this.props;
 
     const widthObj = !autoWidth && {
@@ -14,7 +15,7 @@ export class GiphyItem extends Component {
     };
     return (
       <Item>
-        <GifWrapper {...widthObj}>
+        <GifWrapper {...widthObj} onClick={onClick}>
           <Gif src={url} />
           <Info>
             <div>Attachment</div>
@@ -41,11 +42,13 @@ GiphyItem.propTypes = {
     userAvatar: PropTypes.string,
     userProfile: PropTypes.string
   }),
-  autoWidth: PropTypes.bool
+  autoWidth: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 GiphyItem.defaultProps = {
-  autoWidth: false
+  autoWidth: false,
+  onClick: () => {}
 };
 
 const Item = styled.div`
@@ -67,6 +70,7 @@ const GifWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   ${({ width }) => width && `max-width: ${width}px;`}
+  cursor: pointer;
 `;
 
 const Gif = styled.img``;
