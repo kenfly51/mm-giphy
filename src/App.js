@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { GiphyContainer, GiphyItem } from './components';
 
 class App extends Component {
+  mapGifData = gif => {
+    const { user, images } = gif;
 
-  mapGifData = (gif) => {
-    const { user,  images } = gif;
-
-    const { fixed_width,  original } = images;
+    const { fixed_width, original } = images;
 
     const { url } = fixed_width;
     const { url: fullScreenUrl } = original;
@@ -16,7 +15,6 @@ class App extends Component {
       avatar_url: userAvatar,
       profile_url: userProfile
     } = user || {};
-    
 
     return {
       url,
@@ -24,13 +22,13 @@ class App extends Component {
       displayName,
       userAvatar,
       userProfile
-    }
-  }
+    };
+  };
 
-  renderItem = (gif) => {
+  renderItem = gif => {
     const itemData = this.mapGifData(gif);
-    return <GiphyItem data={itemData}/>
-  }
+    return <GiphyItem data={itemData} />;
+  };
 
   render() {
     return (
