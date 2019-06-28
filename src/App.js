@@ -4,11 +4,12 @@ import { GiphyContainer, GiphyItem, Modal } from './components';
 class App extends Component {
   state = {
     showDetail: false,
-    fullScreenUrl: ''
+    fullScreenUrl: '',
+    title: ''
   };
 
   mapGifData = gif => {
-    const { user, images } = gif;
+    const { user, images, title } = gif;
 
     const { fixed_width, original } = images;
     const { url, width } = fixed_width;
@@ -22,6 +23,7 @@ class App extends Component {
 
     return {
       url,
+      title,
       width,
       fullScreenUrl,
       displayName,
@@ -30,10 +32,11 @@ class App extends Component {
     };
   };
 
-  onItemClick = ({ fullScreenUrl }) => {
+  onItemClick = ({ fullScreenUrl, title }) => {
     this.setState({
       showDetail: true,
-      fullScreenUrl
+      fullScreenUrl,
+      title
     });
   };
 
@@ -45,7 +48,8 @@ class App extends Component {
   onCloseModal = () => {
     this.setState({
       showDetail: false,
-      fullScreenUrl: ''
+      fullScreenUrl: '',
+      title: ''
     });
   };
 
@@ -62,7 +66,7 @@ class App extends Component {
   };
 
   render() {
-    const { showDetail, fullScreenUrl } = this.state;
+    const { showDetail, fullScreenUrl, title } = this.state;
     return (
       <Fragment>
         <GiphyContainer
@@ -74,7 +78,7 @@ class App extends Component {
           phone={2}
         />
         <Modal show={showDetail} onClose={this.onCloseModal}>
-          <img src={fullScreenUrl} onClick={this.onFullItemClick} />
+          <img src={fullScreenUrl} onClick={this.onFullItemClick} alt={title} />
         </Modal>
       </Fragment>
     );
