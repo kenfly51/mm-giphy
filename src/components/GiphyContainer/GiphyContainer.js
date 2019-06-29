@@ -200,7 +200,7 @@ const LoadMoreButton = styled.button`
   font-size: 1rem;
 `;
 
-const roateFrame = keyframes`
+const rotateFrame = keyframes`
   from {
     transform: rotate(0deg);
   }
@@ -209,8 +209,8 @@ const roateFrame = keyframes`
   }
 `;
 
-const roateAnimation = css`
-  ${roateFrame} 1s linear infinite;
+const rotateAnimation = css`
+  ${rotateFrame} 1s linear infinite;
 `;
 
 const Loader = styled.div`
@@ -222,7 +222,7 @@ const Loader = styled.div`
   border-style: solid;
   border-color: rgba(51, 54, 58, 0.4) transparent;
   border-radius: 13px;
-  animation: ${roateAnimation};
+  animation: ${rotateAnimation};
 `;
 
 const LoaderWrapper = styled.div`
