@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { GiphyContainer, GiphyItem, Modal } from './components';
+import placeholder from './assets/image_placeholder.png';
 
 class App extends Component {
   state = {
@@ -12,7 +13,7 @@ class App extends Component {
     const { user, images, title } = gif;
 
     const { fixed_width, original } = images;
-    const { url, width } = fixed_width;
+    const { url, width, height } = fixed_width;
     const { url: fullScreenUrl } = original;
 
     const {
@@ -25,6 +26,7 @@ class App extends Component {
       url,
       title,
       width,
+      height,
       fullScreenUrl,
       displayName,
       userAvatar,
@@ -61,6 +63,7 @@ class App extends Component {
         onClick={() => {
           this.onItemClick(itemData);
         }}
+        placeholder={placeholder}
       />
     );
   };

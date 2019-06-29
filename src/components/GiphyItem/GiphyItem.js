@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { GiphyImageLoader } from '../GiphyImageLoader';
 
 export class GiphyItem extends Component {
   render() {
     const {
-      data: { url, displayName, userAvatar, userProfile, width },
+      data: { url, displayName, userAvatar, userProfile, width, title },
       autoWidth,
-      onClick
+      onClick,
+      placeholder
     } = this.props;
 
     const widthObj = !autoWidth && {
@@ -16,7 +18,7 @@ export class GiphyItem extends Component {
     return (
       <Item>
         <GifWrapper {...widthObj} onClick={onClick}>
-          <Gif src={url} />
+          <GiphyImageLoader src={url} alt={title} placeholder={placeholder} />
           <Info>
             <div>Attachment</div>
             <div>actions</div>
@@ -36,6 +38,7 @@ export class GiphyItem extends Component {
 GiphyItem.propTypes = {
   data: PropTypes.shape({
     url: PropTypes.string,
+    title: PropTypes.string,
     width: PropTypes.string,
     fullScreenUrl: PropTypes.string,
     displayName: PropTypes.string,
@@ -43,12 +46,14 @@ GiphyItem.propTypes = {
     userProfile: PropTypes.string
   }),
   autoWidth: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  placeholder: PropTypes.string
 };
 
 GiphyItem.defaultProps = {
   autoWidth: false,
-  onClick: () => {}
+  onClick: () => {},
+  placeholder: ''
 };
 
 const Item = styled.div`
@@ -72,8 +77,6 @@ const GifWrapper = styled.div`
   ${({ width }) => width && `max-width: ${width}px;`}
   cursor: pointer;
 `;
-
-const Gif = styled.img``;
 
 const Info = styled.div`
   padding: 10px 0;
