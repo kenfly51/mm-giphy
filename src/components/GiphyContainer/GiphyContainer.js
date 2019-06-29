@@ -139,17 +139,17 @@ const Container = styled.div`
 `;
 
 const Item = styled.div`
-  /* PC */
-  ${({ pc }) => pc && getWidthString(pc, 20)};
+  /* Phones (portrait) */
+  ${({ phone }) => phone && getWidthString(phone, 5)};
 
   /* Tablets (portrait) */
-  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  @media only screen and (min-width: 768px) {
     ${({ tablet }) => tablet && getWidthString(tablet, 15)};
   }
 
-  /* Phones (portrait) */
-  @media only screen and (max-width: 320px) {
-    ${({ phone }) => phone && getWidthString(phone, 5)};
+  /* PC */
+  @media only screen and (min-width: 1024px) {
+    ${({ pc }) => pc && getWidthString(pc, 20)};
   }
 `;
 
