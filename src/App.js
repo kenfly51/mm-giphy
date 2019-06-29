@@ -79,6 +79,7 @@ class App extends Component {
           pc={4}
           tablet={3}
           phone={2}
+          autoLoadMore
         />
         <Modal show={showDetail} onClose={this.onCloseModal}>
           <img src={fullScreenUrl} onClick={this.onFullItemClick} alt={title} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 export class GiphyContainer extends Component {
   state = {
@@ -12,6 +12,13 @@ export class GiphyContainer extends Component {
 
   componentDidMount() {
     this.loadGifs();
+    this.props.autoLoadMore &&
+      document.addEventListener('scroll', this.trackScrolling);
+  }
+
+  componentWillUnmount() {
+    this.props.autoLoadMore &&
+      document.removeEventListener('scroll', this.trackScrolling);
   }
 
   buildQueryParams = offset => {
@@ -88,20 +95,42 @@ export class GiphyContainer extends Component {
     this.loadGifs(newOffset);
   };
 
-  render() {
-    const { renderItem, pc, phone, tablet } = this.props;
-    const { gifs, hasMore } = this.state;
+  isBottom(el) {
     return (
-      <Container>
-        {gifs.map(gif => (
-          <Item {...{ pc, phone, tablet }} key={gif.id}>
-            {renderItem(gif)}
-          </Item>
-        ))}
-        {hasMore && (
-          <LoadMoreButton onClick={this.loadMoreGifs}>Load more</LoadMoreButton>
-        )}
-      </Container>
+      parseInt(el.getBoundingClientRect().bottom) <=
+      parseInt(window.innerHeight)
+    );
+  }
+
+  trackScrolling = () => {
+    if (this.isBottom(this.containerElm)) {
+      this.loadMoreGifs();
+    }
+  };
+
+  render() {
+    const { renderItem, pc, phone, tablet, autoLoadMore } = this.props;
+    const { gifs, hasMore } = this.state;
+    const showLoadMoreButton = hasMore && !autoLoadMore;
+    const showLoadingMoreSpinner = hasMore && autoLoadMore;
+    return (
+      <>
+        <Container ref={containerElm => (this.containerElm = containerElm)}>
+          {gifs.map(gif => (
+            <Item {...{ pc, phone, tablet }} key={gif.id}>
+              {renderItem(gif)}
+            </Item>
+          ))}
+        </Container>
+        <LoaderWrapper>
+          {showLoadMoreButton && (
+            <LoadMoreButton onClick={this.loadMoreGifs}>
+              Load more
+            </LoadMoreButton>
+          )}
+          {showLoadingMoreSpinner && <Loader />}
+        </LoaderWrapper>
+      </>
     );
   }
 }
@@ -114,12 +143,14 @@ GiphyContainer.propTypes = {
   rating: PropTypes.string,
   pc: PropTypes.number.isRequired,
   phone: PropTypes.number,
-  tablet: PropTypes.number
+  tablet: PropTypes.number,
+  autoLoadMore: PropTypes.bool
 };
 
 GiphyContainer.defaultProps = {
   pageSize: 20,
-  rating: 'G'
+  rating: 'G',
+  autoLoadMore: false
 };
 
 const getWidthString = (numOfColumn, margin) => {
@@ -167,4 +198,35 @@ const LoadMoreButton = styled.button`
   border: 1px solid transparent;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
+`;
+
+const roateFrame = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const roateAnimation = css`
+  ${roateFrame} 1s linear infinite;
+`;
+
+const Loader = styled.div`
+  box-sizing: border-box;
+  width: 26px;
+  height: 26px;
+  margin: 20px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: rgba(51, 54, 58, 0.4) transparent;
+  border-radius: 13px;
+  animation: ${roateAnimation};
+`;
+
+const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 `;
