@@ -1,6 +1,21 @@
 import React, { Component, Fragment } from 'react';
 import { GiphyContainer, GiphyItem, Modal } from './components';
 import placeholder from './assets/image_placeholder.png';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
+library.add(fas);
+
+const random = range => Math.floor(Math.random() * range + 1);
+
+const randomFakeData = () => {
+  return {
+    view: random(100),
+    like: random(200),
+    comment: random(50),
+    attachment: 'link'
+  };
+};
 
 class App extends Component {
   state = {
@@ -30,7 +45,8 @@ class App extends Component {
       fullScreenUrl,
       displayName,
       userAvatar,
-      userProfile
+      userProfile,
+      ...randomFakeData()
     };
   };
 

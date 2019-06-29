@@ -2,11 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GiphyImageLoader } from '../GiphyImageLoader';
+import { Icon } from '../Icon';
 
 export class GiphyItem extends Component {
   render() {
     const {
-      data: { url, displayName, userAvatar, userProfile, width, title },
+      data: {
+        url,
+        displayName,
+        userAvatar,
+        userProfile,
+        width,
+        title,
+        attachment,
+        view,
+        comment,
+        like
+      },
       autoWidth,
       onClick,
       placeholder
@@ -20,8 +32,27 @@ export class GiphyItem extends Component {
         <GifWrapper {...widthObj} onClick={onClick}>
           <GiphyImageLoader src={url} alt={title} placeholder={placeholder} />
           <Info>
-            <div>Attachment</div>
-            <div>actions</div>
+            {attachment && <Icon name="paperclip" />}
+            <Actions>
+              {view && (
+                <Action>
+                  <Icon name="eye" />
+                  <span>{view}</span>
+                </Action>
+              )}
+              {comment && (
+                <Action>
+                  <Icon name="comment" />
+                  <span>{comment}</span>
+                </Action>
+              )}
+              {like && (
+                <Action>
+                  <Icon name="heart" />
+                  <span>{like}</span>
+                </Action>
+              )}
+            </Actions>
           </Info>
         </GifWrapper>
         {userAvatar && (
@@ -43,8 +74,12 @@ GiphyItem.propTypes = {
     fullScreenUrl: PropTypes.string,
     displayName: PropTypes.string,
     userAvatar: PropTypes.string,
-    userProfile: PropTypes.string
-  }),
+    userProfile: PropTypes.string,
+    attachment: PropTypes.string,
+    view: PropTypes.number,
+    comment: PropTypes.number,
+    like: PropTypes.number
+  }).isRequired,
   autoWidth: PropTypes.bool,
   onClick: PropTypes.func,
   placeholder: PropTypes.string
@@ -82,6 +117,19 @@ const Info = styled.div`
   padding: 10px 0;
   display: flex;
   justify-content: space-between;
+`;
+
+const Actions = styled.div`
+  display: flex;
+`;
+
+const Action = styled.div`
+  margin-left: 10px;
+  font-size: 0.8em;
+
+  span {
+    margin-left: 5px;
+  }
 `;
 
 const UserInfo = styled.div`
